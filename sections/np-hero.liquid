@@ -15,12 +15,28 @@
 
   .np-hero__portrait {
     flex: 0 0 38%;
-    position: relative;
     background-color: #ddd5c8;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 28px 56px;
+    gap: 16px;
+    position: relative;
   }
 
-  .np-hero__portrait img {
+  .np-hero__portrait-frame {
+    width: 100%;
+    max-width: 220px;
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
+    flex-shrink: 0;
+  }
+
+  .np-hero__portrait-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -28,32 +44,10 @@
     display: block;
   }
 
-  .np-hero__portrait-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    color: #a59585;
-  }
-
-  .np-hero__portrait-placeholder svg {
-    width: 72px;
-    height: 72px;
-    opacity: 0.5;
-  }
-
-  .np-hero__portrait-placeholder span {
-    font-size: 13px;
-    opacity: 0.7;
-  }
-
   .np-hero__credential {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    bottom: 16px;
+    left: 16px;
     background: rgba(255, 255, 255, 0.92);
     border-radius: 6px;
     padding: 7px 12px;
@@ -70,6 +64,32 @@
     width: 14px;
     height: 14px;
     flex-shrink: 0;
+  }
+
+  .np-hero__quote {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+    max-width: 340px;
+    padding-bottom: 16px;
+  }
+
+  .np-hero__quote-mark {
+    font-size: 52px;
+    line-height: 0.75;
+    color: #8b5e3c;
+    font-style: normal;
+    flex-shrink: 0;
+  }
+
+  .np-hero__quote-text {
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.65;
+    color: #5a4f45;
+    margin: 0;
+    text-align: left;
   }
 
   .np-hero__content {
@@ -97,6 +117,7 @@
     line-height: 1.15;
     color: #2c2820;
     margin: 0 0 16px;
+    white-space: pre-line;
   }
 
   .np-hero__subtitle {
@@ -122,6 +143,7 @@
     font-weight: 600;
     padding: 13px 26px;
     border-radius: 6px;
+    border: 1.5px solid #8b5e3c;
     text-decoration: none;
     transition: background 0.2s ease;
   }
@@ -157,12 +179,16 @@
 
     .np-hero__portrait {
       flex: 0 0 auto;
-      height: 280px;
       width: 100%;
+      padding: 28px 24px 60px;
+    }
+
+    .np-hero__portrait-frame {
+      max-width: 160px;
     }
 
     .np-hero__content {
-      padding: 36px 24px;
+      padding: 28px 24px 36px;
       max-width: 100%;
     }
 
@@ -189,23 +215,34 @@
 <div class="np-hero">
 
   <div class="np-hero__portrait">
-    {%- if section.settings.np_image != blank -%}
-      {{
-        section.settings.np_image
-        | image_url: width: 900
-        | image_tag:
-          loading: 'eager',
-          fetchpriority: 'high',
-          widths: '400, 600, 900',
-          sizes: '38vw'
-      }}
-    {%- else -%}
-      <div class="np-hero__portrait-placeholder">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
-        <span>Add NP photo in theme editor</span>
+    <div class="np-hero__portrait-frame">
+      {%- if section.settings.np_image != blank -%}
+        {{
+          section.settings.np_image
+          | image_url: width: 900
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '300, 500, 900',
+            sizes: '(max-width: 749px) 160px, 220px',
+            alt: 'Licensed Nurse Practitioner'
+        }}
+      {%- else -%}
+        <img
+          src="https://cdn.shopify.com/s/files/1/0821/2067/1447/files/woman-doctor.jpg?v=1778967782"
+          alt="Licensed Nurse Practitioner"
+          loading="eager"
+          fetchpriority="high"
+          width="220"
+          height="293"
+        >
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.portrait_quote != blank -%}
+      <div class="np-hero__quote">
+        <span class="np-hero__quote-mark">&ldquo;</span>
+        <p class="np-hero__quote-text">{{ section.settings.portrait_quote }}</p>
       </div>
     {%- endif -%}
 
@@ -214,7 +251,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
         </svg>
-        Licensed Nurse Practitioner
+        Licensed Geriatric Nurse Practitioner
       </div>
     {%- endif -%}
   </div>
@@ -280,6 +317,12 @@
       "default": true
     },
     {
+      "type": "textarea",
+      "id": "portrait_quote",
+      "label": "Portrait quote",
+      "default": "Most falls are preventable. The right equipment at home keeps your loved ones safe, independent, and where they belong."
+    },
+    {
       "type": "header",
       "content": "Content"
     },
@@ -290,16 +333,16 @@
       "default": "Nurse practitioner curated"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "title",
       "label": "Headline",
-      "default": "Medical equipment made easy"
+      "default": "Medical equipment,\nmade easy"
     },
     {
       "type": "textarea",
       "id": "subtitle",
       "label": "Subtitle",
-      "default": "Every product hand-picked by our licensed NP — so you know it's the right fit, no guesswork required."
+      "default": "Every product hand-picked by our licensed NP — so you know it's the right one for you."
     },
     {
       "type": "header",
@@ -340,10 +383,10 @@
       "id": "section_height",
       "min": 400,
       "max": 800,
-      "step": 40,
+      "step": 20,
       "unit": "px",
       "label": "Minimum height (desktop)",
-      "default": 560
+      "default": 460
     }
   ],
   "presets": [
@@ -351,12 +394,13 @@
       "name": "NP Hero",
       "settings": {
         "eyebrow": "Nurse practitioner curated",
-        "title": "Medical equipment made easy",
+        "title": "Medical equipment,\nmade easy",
         "subtitle": "Every product hand-picked by our licensed NP — so you know it's the right fit, no guesswork required.",
         "btn_primary_label": "Shop all equipment",
         "btn_secondary_label": "Meet our NP",
         "show_credential_badge": true,
-        "section_height": 560
+        "portrait_quote": "Most falls are preventable. The right equipment at home keeps your loved ones safe, independent, and where they belong.",
+        "section_height": 480
       }
     }
   ]

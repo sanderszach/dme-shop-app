@@ -13,13 +13,14 @@
       "type": "np-hero",
       "settings": {
         "eyebrow": "Nurse practitioner curated",
-        "title": "Medical equipment made easy",
-        "subtitle": "Every product hand-picked by our licensed NP — so you know it's the right fit, no guesswork required.",
+        "title": "Medical equipment,\nmade easy",
+        "subtitle": "Every product hand-picked by our licensed NP — so you know it's the right one for you.",
         "btn_primary_label": "Shop all equipment",
         "btn_primary_url": "shopify://collections/all",
         "btn_secondary_label": "Meet our NP",
         "show_credential_badge": true,
-        "section_height": 560
+        "portrait_quote": "Most falls are preventable. The right equipment at home keeps your loved ones safe, independent, and where they belong.",
+        "section_height": 480
       }
     },
     "featured_collection": {
