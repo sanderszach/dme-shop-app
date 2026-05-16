@@ -244,7 +244,7 @@
 
       {%- if section.settings.btn_secondary_label != blank -%}
         <a
-          href="{{ section.settings.btn_secondary_url }}"
+          href="{{ section.settings.btn_secondary_url | default: '/pages/about' }}"
           class="np-hero__btn-secondary"
         >
           {{ section.settings.btn_secondary_label }}
