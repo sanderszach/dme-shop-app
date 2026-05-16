@@ -9,43 +9,17 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "button"
-      ],
+    "np_hero": {
+      "type": "np-hero",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "eyebrow": "Nurse practitioner curated",
+        "title": "Medical equipment made easy",
+        "subtitle": "Every product hand-picked by our licensed NP — so you know it's the right fit, no guesswork required.",
+        "btn_primary_label": "Shop all equipment",
+        "btn_primary_url": "shopify://collections/all",
+        "btn_secondary_label": "Meet our NP",
+        "show_credential_badge": true,
+        "section_height": 560
       }
     },
     "featured_collection": {
@@ -78,7 +52,7 @@
     }
   },
   "order": [
-    "image_banner",
+    "np_hero",
     "featured_collection"
   ]
 }

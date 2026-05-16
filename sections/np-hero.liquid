@@ -1,0 +1,364 @@
+{% comment %}
+  NP Hero — Full-width hero with NP portrait inset (left) and content (right)
+  Layout: Option B  |  Colors: warm/light (Option A palette)
+{% endcomment %}
+
+<style>
+  .np-hero {
+    display: flex;
+    align-items: stretch;
+    min-height: {{ section.settings.section_height }}px;
+    background-color: #f7f4ef;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .np-hero__portrait {
+    flex: 0 0 38%;
+    position: relative;
+    background-color: #ddd5c8;
+    overflow: hidden;
+  }
+
+  .np-hero__portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .np-hero__portrait-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #a59585;
+  }
+
+  .np-hero__portrait-placeholder svg {
+    width: 72px;
+    height: 72px;
+    opacity: 0.5;
+  }
+
+  .np-hero__portrait-placeholder span {
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  .np-hero__credential {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5a4f45;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .np-hero__credential svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .np-hero__content {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 56px 64px;
+    max-width: 580px;
+  }
+
+  .np-hero__eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8a7f72;
+    margin-bottom: 14px;
+  }
+
+  .np-hero__title {
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #2c2820;
+    margin: 0 0 16px;
+  }
+
+  .np-hero__subtitle {
+    font-size: 17px;
+    line-height: 1.65;
+    color: #5a4f45;
+    margin: 0 0 32px;
+    max-width: 440px;
+  }
+
+  .np-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .np-hero__btn-primary {
+    display: inline-block;
+    background: #8b5e3c;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px 26px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .np-hero__btn-primary:hover {
+    background: #7a5234;
+    color: #fff;
+  }
+
+  .np-hero__btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: #8b5e3c;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px 26px;
+    border-radius: 6px;
+    border: 1.5px solid #8b5e3c;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .np-hero__btn-secondary:hover {
+    background: #8b5e3c;
+    color: #fff;
+  }
+
+  @media screen and (max-width: 749px) {
+    .np-hero {
+      flex-direction: column;
+      min-height: unset;
+    }
+
+    .np-hero__portrait {
+      flex: 0 0 auto;
+      height: 280px;
+      width: 100%;
+    }
+
+    .np-hero__content {
+      padding: 36px 24px;
+      max-width: 100%;
+    }
+
+    .np-hero__title {
+      font-size: 28px;
+    }
+
+    .np-hero__subtitle {
+      font-size: 15px;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 990px) {
+    .np-hero__content {
+      padding: 40px 40px;
+    }
+
+    .np-hero__title {
+      font-size: 32px;
+    }
+  }
+</style>
+
+<div class="np-hero">
+
+  <div class="np-hero__portrait">
+    {%- if section.settings.np_image != blank -%}
+      {{
+        section.settings.np_image
+        | image_url: width: 900
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '400, 600, 900',
+          sizes: '38vw'
+      }}
+    {%- else -%}
+      <div class="np-hero__portrait-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span>Add NP photo in theme editor</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_credential_badge -%}
+      <div class="np-hero__credential">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+        </svg>
+        Licensed Nurse Practitioner
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="np-hero__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="np-hero__eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.title != blank -%}
+      <h1 class="np-hero__title">{{ section.settings.title }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="np-hero__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+
+    <div class="np-hero__actions">
+      {%- if section.settings.btn_primary_label != blank -%}
+        <a
+          href="{{ section.settings.btn_primary_url | default: routes.all_products_collection_url }}"
+          class="np-hero__btn-primary"
+        >
+          {{ section.settings.btn_primary_label }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.btn_secondary_label != blank -%}
+        <a
+          href="{{ section.settings.btn_secondary_url }}"
+          class="np-hero__btn-secondary"
+        >
+          {{ section.settings.btn_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "NP Hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Portrait"
+    },
+    {
+      "type": "image_picker",
+      "id": "np_image",
+      "label": "Nurse practitioner photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_credential_badge",
+      "label": "Show credential badge",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Nurse practitioner curated"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline",
+      "default": "Medical equipment made easy"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Every product hand-picked by our licensed NP — so you know it's the right fit, no guesswork required."
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_label",
+      "label": "Label",
+      "default": "Shop all equipment"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "URL"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_label",
+      "label": "Label",
+      "default": "Meet our NP"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 400,
+      "max": 800,
+      "step": 40,
+      "unit": "px",
+      "label": "Minimum height (desktop)",
+      "default": 560
+    }
+  ],
+  "presets": [
+    {
+      "name": "NP Hero",
+      "settings": {
+        "eyebrow": "Nurse practitioner curated",
+        "title": "Medical equipment made easy",
+        "subtitle": "Every product hand-picked by our licensed NP — so you know it's the right fit, no guesswork required.",
+        "btn_primary_label": "Shop all equipment",
+        "btn_secondary_label": "Meet our NP",
+        "show_credential_badge": true,
+        "section_height": 560
+      }
+    }
+  ]
+}
+{% endschema %}
