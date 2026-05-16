@@ -24,7 +24,7 @@ npm install -g @shopify/cli @shopify/theme
 2. Start the development server against your store:
 
    ```bash
-   shopify theme dev --store your-store.myshopify.com
+   shopify theme dev --store https://s7h82w-5a.myshopify.com
    ```
 
    This syncs your local files to a development theme on the store and opens a preview URL in the browser. Changes to local files are reflected immediately.
@@ -32,7 +32,7 @@ npm install -g @shopify/cli @shopify/theme
    To target a specific theme ID (e.g. to resume work on an existing dev theme):
 
    ```bash
-   shopify theme dev --store your-store.myshopify.com --theme <theme-id>
+   shopify theme dev --store https://s7h82w-5a.myshopify.com --theme <theme-id>
    ```
 
 ## Publishing (pushing to live)
@@ -40,13 +40,13 @@ npm install -g @shopify/cli @shopify/theme
 **Push to an existing theme** (overwrites it):
 
 ```bash
-shopify theme push --store your-store.myshopify.com --theme <theme-id>
+shopify theme push --store https://s7h82w-5a.myshopify.com --theme <theme-id>
 ```
 
 **Push as a new theme** (creates a draft; you can then activate it in the Shopify admin):
 
 ```bash
-shopify theme push --store your-store.myshopify.com --unpublished
+shopify theme push --store https://s7h82w-5a.myshopify.com --unpublished
 ```
 
 **Activate the theme** after pushing: go to *Online Store → Themes* in the Shopify admin and click *Publish* next to the theme.
