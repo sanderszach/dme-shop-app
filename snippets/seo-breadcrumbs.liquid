@@ -1,0 +1,69 @@
+{%- comment -%}
+  seo-breadcrumbs.liquid
+  Renders BreadcrumbList JSON-LD structured data for SEO.
+  Required parameter:
+    - page_type: 'product', 'collection', or 'article'
+{%- endcomment -%}
+
+{%- liquid
+  assign base_url = shop.url
+-%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": {{ 'general.breadcrumbs.home' | t | default: 'Home' | json }},
+      "item": {{ base_url | json }}
+    }
+    {%- if page_type == 'product' -%}
+      {%- if product.collections.first != blank -%}
+        {%- assign first_collection = product.collections.first -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ first_collection.title | json }},
+          "item": {{ base_url | append: first_collection.url | json }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ product.title | json }},
+          "item": {{ base_url | append: product.url | json }}
+        }
+      {%- else -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ product.title | json }},
+          "item": {{ base_url | append: product.url | json }}
+        }
+      {%- endif -%}
+    {%- elsif page_type == 'collection' -%}
+      ,{
+        "@type": "ListItem",
+        "position": 2,
+        "name": {{ collection.title | json }},
+        "item": {{ base_url | append: collection.url | json }}
+      }
+    {%- elsif page_type == 'article' -%}
+      ,{
+        "@type": "ListItem",
+        "position": 2,
+        "name": {{ blog.title | json }},
+        "item": {{ base_url | append: blog.url | json }}
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": {{ article.title | json }},
+        "item": {{ base_url | append: article.url | json }}
+      }
+    {%- endif -%}
+  ]
+}
+</script>
