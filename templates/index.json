@@ -9,12 +9,30 @@
  */
 {
   "sections": {
+    "premium_hero": {
+      "type": "premium-hero",
+      "settings": {
+        "main_image": "shopify://shop_images/bathroom_primary_hero.png",
+        "media_position": "left",
+        "show_chip": true,
+        "chip_initials": "BS",
+        "chip_text": "Curated by Bethany Sanders, NP",
+        "eyebrow": "Premium, nurse practitioner curated",
+        "title": "Safety that still\nlooks like home",
+        "subtitle": "Beautifully designed fall-prevention equipment, hand-picked by a licensed nurse practitioner.",
+        "btn_primary_label": "Shop the collection",
+        "btn_primary_url": "shopify://collections/all",
+        "btn_secondary_label": "Meet our NP",
+        "btn_secondary_url": "shopify://pages/about",
+        "section_height": 500
+      }
+    },
     "np_hero": {
       "type": "np-hero",
       "settings": {
-        "eyebrow": "Nurse practitioner curated",
-        "title": "Medical equipment,\nmade easy",
-        "subtitle": "Every product hand-picked by our licensed NP — so you know it's the right one for you.",
+        "eyebrow": "Meet your nurse practitioner",
+        "title": "Hand-picked by a\nnurse practitioner",
+        "subtitle": "Every product in our store is personally vetted by Bethany Sanders, a licensed geriatric NP — so you know it's the right fit, no guesswork required.",
         "btn_primary_label": "Shop all equipment",
         "btn_primary_url": "shopify://collections/all",
         "btn_secondary_label": "Meet our NP",
@@ -129,10 +147,11 @@
     }
   },
   "order": [
-    "np_hero",
+    "premium_hero",
     "shower_chair_collage",
     "featured_collection",
     "fall_prevention_cta",
+    "np_hero",
     "expert_advice_blog"
   ]
 }

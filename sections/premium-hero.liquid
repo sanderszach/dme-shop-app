@@ -1,0 +1,504 @@
+{% comment %}
+  Premium Hero — large lifestyle image (left/right) + content with NP trust chip,
+  3-thumbnail collection strip, and dual CTAs.
+  Designed mobile-first: on small screens the image stacks on top with a fixed
+  aspect ratio, buttons go full-width, thumbnails stay a 3-across row.
+{% endcomment %}
+
+{%- liquid
+  assign has_thumbs = false
+  if section.settings.thumb_1_image != blank or section.settings.thumb_2_image != blank or section.settings.thumb_3_image != blank
+    assign has_thumbs = true
+  endif
+  assign hero_alt = section.settings.title | strip_newlines
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .pm-hero {
+    display: flex;
+    align-items: stretch;
+    min-height: {{ section.settings.section_height }}px;
+    background-color: #f7f4ef;
+    overflow: hidden;
+    {% if section.settings.media_position == 'right' %}flex-direction: row-reverse;{% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__media {
+    flex: 0 0 54%;
+    position: relative;
+    background-color: #ddd5c8;
+    min-height: 280px;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #6b5d4d;
+    font-size: 13px;
+    padding: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__chip {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    max-width: calc(100% - 32px);
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 999px;
+    padding: 6px 14px 6px 6px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__chip-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #8b5e3c;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__chip-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__chip-text {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #5a4f45;
+    line-height: 1.3;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__content {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 44px;
+    max-width: 600px;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: #8a7f72;
+    margin-bottom: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__title {
+    font-size: clamp(28px, 3.4vw, 44px);
+    font-weight: 700;
+    line-height: 1.13;
+    color: #2c2820;
+    margin: 0 0 14px;
+    white-space: pre-line;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__subtitle {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #5a4f45;
+    margin: 0 0 26px;
+    max-width: 440px;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__thumbs {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 28px;
+    max-width: 380px;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__thumb {
+    flex: 1 1 0%;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #e7e0d5;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__btn-primary,
+  #shopify-section-{{ section.id }} .pm-hero__btn-secondary {
+    display: inline-block;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px 26px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__btn-primary {
+    background: #8b5e3c;
+    color: #fff;
+    border: 1.5px solid #8b5e3c;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__btn-primary:hover {
+    background: #7a5234;
+    color: #fff;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__btn-secondary {
+    background: transparent;
+    color: #8b5e3c;
+    border: 1.5px solid #8b5e3c;
+  }
+
+  #shopify-section-{{ section.id }} .pm-hero__btn-secondary:hover {
+    background: #8b5e3c;
+    color: #fff;
+  }
+
+  /* Tablet */
+  @media screen and (min-width: 750px) and (max-width: 990px) {
+    #shopify-section-{{ section.id }} .pm-hero__media {
+      flex-basis: 46%;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__content {
+      padding: 36px 32px;
+    }
+  }
+
+  /* Mobile: image on top, full-width buttons */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .pm-hero {
+      flex-direction: column;
+      min-height: unset;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__media {
+      flex: 0 0 auto;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      min-height: 0;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__content {
+      padding: 28px 24px 34px;
+      max-width: 100%;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__title {
+      font-size: 27px;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__subtitle {
+      font-size: 15px;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__thumbs {
+      max-width: 100%;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    #shopify-section-{{ section.id }} .pm-hero__btn-primary,
+    #shopify-section-{{ section.id }} .pm-hero__btn-secondary {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="pm-hero">
+
+  <div class="pm-hero__media">
+    {%- if section.settings.main_image != blank -%}
+      {{
+        section.settings.main_image
+        | image_url: width: 1600
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '600, 900, 1200, 1600',
+          sizes: '(max-width: 749px) 100vw, 54vw',
+          alt: hero_alt
+      }}
+    {%- else -%}
+      <div class="pm-hero__placeholder">
+        Add your main lifestyle photo<br>(e.g. grab bar in a luxury bathroom)
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_chip -%}
+      <div class="pm-hero__chip">
+        <div class="pm-hero__chip-avatar">
+          {%- if section.settings.chip_avatar != blank -%}
+            {{ section.settings.chip_avatar | image_url: width: 90 | image_tag: loading: 'lazy', widths: '60, 90', alt: '' }}
+          {%- else -%}
+            {{ section.settings.chip_initials }}
+          {%- endif -%}
+        </div>
+        <span class="pm-hero__chip-text">{{ section.settings.chip_text }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pm-hero__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="pm-hero__eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.title != blank -%}
+      <h1 class="pm-hero__title">{{ section.settings.title }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="pm-hero__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+
+    {%- if has_thumbs -%}
+      <div class="pm-hero__thumbs">
+        {%- for i in (1..3) -%}
+          {%- liquid
+            assign img_key = 'thumb_' | append: i | append: '_image'
+            assign url_key = 'thumb_' | append: i | append: '_url'
+            assign thumb_img = section.settings[img_key]
+            assign thumb_url = section.settings[url_key]
+          -%}
+          {%- if thumb_img != blank -%}
+            {%- if thumb_url != blank -%}<a class="pm-hero__thumb" href="{{ thumb_url }}">{%- else -%}<span class="pm-hero__thumb">{%- endif -%}
+              {{ thumb_img | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 400, 600', sizes: '(max-width: 749px) 30vw, 130px', alt: '' }}
+            {%- if thumb_url != blank -%}</a>{%- else -%}</span>{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="pm-hero__actions">
+      {%- if section.settings.btn_primary_label != blank -%}
+        <a
+          href="{{ section.settings.btn_primary_url | default: routes.all_products_collection_url }}"
+          class="pm-hero__btn-primary"
+        >
+          {{ section.settings.btn_primary_label }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.btn_secondary_label != blank -%}
+        <a
+          href="{{ section.settings.btn_secondary_url | default: '/pages/about' }}"
+          class="pm-hero__btn-secondary"
+        >
+          {{ section.settings.btn_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Premium Hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main lifestyle photo",
+      "info": "Wide landscape shot. Center-cropped; aim for 3:2 or wider."
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Image position (desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Trust chip"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chip",
+      "label": "Show NP trust chip",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "chip_avatar",
+      "label": "Chip avatar (NP headshot)"
+    },
+    {
+      "type": "text",
+      "id": "chip_initials",
+      "label": "Avatar fallback initials",
+      "default": "BS"
+    },
+    {
+      "type": "text",
+      "id": "chip_text",
+      "label": "Chip text",
+      "default": "Curated by Bethany Sanders, NP"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Premium, nurse practitioner curated"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Headline",
+      "default": "Safety that still\nlooks like home"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Beautifully designed fall-prevention equipment, hand-picked by a licensed nurse practitioner."
+    },
+    {
+      "type": "header",
+      "content": "Collection thumbnails",
+      "info": "Optional. Show up to 3 product shots to hint at the range."
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_1_image",
+      "label": "Thumbnail 1"
+    },
+    {
+      "type": "url",
+      "id": "thumb_1_url",
+      "label": "Thumbnail 1 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_2_image",
+      "label": "Thumbnail 2"
+    },
+    {
+      "type": "url",
+      "id": "thumb_2_url",
+      "label": "Thumbnail 2 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumb_3_image",
+      "label": "Thumbnail 3"
+    },
+    {
+      "type": "url",
+      "id": "thumb_3_url",
+      "label": "Thumbnail 3 link"
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_label",
+      "label": "Label",
+      "default": "Shop the collection"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "URL"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_label",
+      "label": "Label",
+      "default": "Meet our NP"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 380,
+      "max": 760,
+      "step": 20,
+      "unit": "px",
+      "label": "Minimum height (desktop)",
+      "default": 480
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Hero",
+      "settings": {
+        "media_position": "left",
+        "show_chip": true,
+        "chip_initials": "BS",
+        "chip_text": "Curated by Bethany Sanders, NP",
+        "eyebrow": "Premium, nurse practitioner curated",
+        "title": "Safety that still\nlooks like home",
+        "subtitle": "Beautifully designed fall-prevention equipment, hand-picked by a licensed nurse practitioner.",
+        "btn_primary_label": "Shop the collection",
+        "btn_secondary_label": "Meet our NP",
+        "section_height": 480
+      }
+    }
+  ]
+}
+{% endschema %}
