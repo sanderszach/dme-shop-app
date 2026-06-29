@@ -14,6 +14,11 @@
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+      max-width: calc(var(--page-width, 1200px) * 0.85);
+    }
+
+    .section-{{ section.id }}-padding .collage {
+      grid-template-columns: 3fr 3fr 4fr;
     }
   }
 {%- endstyle -%}

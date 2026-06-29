@@ -23,6 +23,41 @@
         "section_height": 480
       }
     },
+    "shower_chair_collage": {
+      "type": "collage",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/teak-shower-seat-as-primary-subject_fcb4866e-4c1e-4061-b5bc-30bbf0280c01.png"
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Bella-Spa-Teak-Shower-Seat-02-angle.jpg"
+          }
+        },
+        "image_3": {
+          "type": "product",
+          "settings": {
+            "product": "bella-spa-teak-folding-shower-seat",
+            "second_image": false
+          }
+        }
+      },
+      "block_order": ["image_1", "image_2", "image_3"],
+      "settings": {
+        "heading": "Shower Chairs & Seats",
+        "heading_size": "h1",
+        "desktop_layout": "left",
+        "mobile_layout": "column",
+        "card_styles": "none",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -95,6 +130,7 @@
   },
   "order": [
     "np_hero",
+    "shower_chair_collage",
     "featured_collection",
     "fall_prevention_cta",
     "expert_advice_blog"
